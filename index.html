@@ -4,50 +4,62 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Libary</title>
-    <style rel="stylesheet" href="style/index.css"></style>
+    <title>Library</title>
+    <link rel="stylesheet" href="./style/index.css" />
     <script defer type="module" src="scripts/app.js"></script>
   </head>
   <body>
-    <h1>Libary</h1>
+    <h1>Library</h1>
     <div class="libary">
-      <button class="add-book-btn">+ Book</button>
-      <p>Total number of pages read</p>
-      <p class="total-pages-read"></p>
-      <form class="sort-dropdown-form">
-        <input class="sort-dropdown-list" type="button" list="sort-options" value="Sort"/>
-        <datalist id="sort-options">
-          <option>Insertion order</option>
-          <option>Title</option>
-          <option>Author</option>
-          <option>Pages</option>
-          <option>Published</option>
-        </datalist>
-      </form>
-      <table class="libary-table">
-        <tr class="libary-table-categorys">
-          <th>Title</th>
-          <th>Author</th>
-          <th>Pages</th>
-          <th>Published</th>
-          <th>Status</th>
-        </tr>
+      <header>
+        <button class="add-book-btn">+ Book</button>
+        <p>Total number of pages read</p>
+        <p class="total-pages-read"></p>
+        <form class="sort-dropdown-form">
+          <input
+            class="sort-dropdown-list"
+            type="button"
+            list="sort-options"
+            value="Sort"
+          />
+          <datalist id="sort-options">
+            <option>Insertion order</option>
+            <option>Title</option>
+            <option>Author</option>
+            <option>Pages</option>
+            <option>Published</option>
+          </datalist>
+        </form>
+      </header>
+      <table>
+        <thead class="table-book-categorys">
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Pages</th>
+            <th>Published</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody class="table-books"></tbody>
       </table>
     </div>
-    <div class="add-book-pop-up">
+    <div class="modal-window">
       <button class="close-btn">X</button>
-      <h3>New Book</h3>
-      <label for="book-title">Title</label>
-      <input id="book-title" type="text" value="Title of the book" />
-      <label for="book-author">Author</label>
-      <input id="book-author" type="text" value="Book author" />
-      <label for="book-pages">Pages</label>
-      <input id="book-pages" type="text" value="Number of pages" />
-      <label for="book-published">Published</label>
-      <input id="book-published" type="text" value="Year of release" />
-      <label for="book-status">Read</label>
-      <input id="book-status" type="checkbox" />
-      <input id="book-submit-btn" type="submit" value="Submit" />
+      <div class="new-book-pop-up">
+        <h3>New Book</h3>
+        <label for="book-title">Title</label>
+        <input id="book-title" type="text" value="Title of the book" />
+        <label for="book-author">Author</label>
+        <input id="book-author" type="text" value="Book author" />
+        <label for="book-pages">Pages</label>
+        <input id="book-pages" type="text" value="Number of pages" />
+        <label for="book-published">Published</label>
+        <input id="book-published" type="text" value="Year of release" />
+        <label class="book-status-label" for="book-status">Read</label>
+        <input id="book-status" type="checkbox" />
+        <input id="book-submit-btn" type="submit" value="Add to Libary" />
+      </div>
     </div>
   </body>
 </html>

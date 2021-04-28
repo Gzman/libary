@@ -1,0 +1,82 @@
+html {
+  font-family: sans-serif;
+  font-size: 17px;
+}
+
+body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button,
+.sort-dropdown-list {
+  height: 2.75rem;
+  width: 5rem;
+  background-color: gray;
+  color: whitesmoke;
+}
+
+header {
+  padding-block: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+table {
+  padding: 1rem;
+}
+
+tr {
+  border: 0.5rem dotted gray;
+}
+
+thead {
+  background-color: gray;
+  color: whitesmoke;
+  border: none;
+}
+
+.modal-window {
+  display: none;
+  position: fixed;
+  height: 100%;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  overflow: auto;
+  background-color: gray;
+  color: whitesmoke;
+}
+
+.close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.new-book-pop-up {
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+.book-status-label {
+  align-self: center;
+}
+
+#book-status {
+  align-self: center;
+}
+
+#book-submit-btn {
+  align-self: center;
+}
