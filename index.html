@@ -38,7 +38,7 @@
             <th>Author</th>
             <th>Pages</th>
             <th>Published</th>
-            <th>Status</th>
+            <th>Read</th>
           </tr>
         </thead>
         <tbody class="table-books"></tbody>
@@ -48,14 +48,14 @@
       <button class="close-btn">X</button>
       <div class="new-book-pop-up">
         <h3>New Book</h3>
-        <label for="book-title">Title</label>
-        <input id="book-title" type="text" value="Title of the book" />
+        <label for="book-title">Title*</label>
+        <input id="book-title" type="text" maxlength="50" size="50" />
         <label for="book-author">Author</label>
-        <input id="book-author" type="text" value="Book author" />
+        <input id="book-author" type="text" maxlength="50" size="50" />
         <label for="book-pages">Pages</label>
-        <input id="book-pages" type="text" value="Number of pages" />
+        <input id="book-pages" type="text" maxlength="6" size="6" />
         <label for="book-published">Published</label>
-        <input id="book-published" type="text" value="Year of release" />
+        <input id="book-published" type="text" maxlength="4" size="6" />
         <label class="book-status-label" for="book-status">Read</label>
         <input id="book-status" type="checkbox" />
         <input id="book-submit-btn" type="submit" value="Add to Libary" />
