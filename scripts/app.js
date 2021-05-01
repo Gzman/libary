@@ -1,4 +1,4 @@
-import { Book, myLibary } from "./libary.js";
+import { Book, myLibary, libarySort } from "./libary.js";
 
 const table = document.querySelector("tbody");
 const titleField = document.querySelector("#book-title");
@@ -6,6 +6,9 @@ const authorField = document.querySelector("#book-author");
 const pagesField = document.querySelector("#book-pages");
 const publishedField = document.querySelector("#book-published");
 const statusField = document.querySelector("#book-status");
+
+const sortSelect = document.querySelector("#sort-select");
+const orderSelect = document.querySelector("#sort-order-select");
 
 const cleanTable = () => table.textContent = "";
 
@@ -22,6 +25,7 @@ function renderBooks() {
         <td><input class="checkbox-status" type="checkbox" ${book.haveRead ? "checked" : "unchecked"}/></td>
         <td><button class="remove-btn">delete</button></td>`;
         table.append(tableRow);
+        console.log(book.insertionDate);
     });
     document.querySelectorAll(".checkbox-status").forEach(checkbox => checkbox.addEventListener("change", statusClicked));
     document.querySelectorAll(".remove-btn").forEach(btn => btn.addEventListener("click", removeClicked));
@@ -130,6 +134,24 @@ function submitClicked() {
     renderBooks();
 }
 
+function sortOptionSelected() {
+    const orderAfter = sortSelect.options[sortSelect.selectedIndex].text;
+    const direction = orderSelect.options[orderSelect.selectedIndex].text;
+    libarySort[orderAfter](direction === "asc" ? true : false);
+    renderBooks();
+}
+
+function initSortSelectionElements() {
+    Object.keys(libarySort).forEach((key) => {
+        const option = document.createElement("option");
+        option.text = key;
+        sortSelect.add(option);
+    });
+    sortSelect.addEventListener("change", sortOptionSelected);
+    orderSelect.addEventListener("change", sortOptionSelected);
+}
+
+initSortSelectionElements();
 document.querySelector(".add-book-btn").addEventListener("click", addBookClicked);
 document.querySelector(".close-btn").addEventListener("click", closeClicked);
 document.querySelector("#book-submit-btn").addEventListener("click", submitClicked);

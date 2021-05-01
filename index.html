@@ -15,21 +15,12 @@
         <button class="add-book-btn">+ Book</button>
         <p>Total number of pages read</p>
         <p class="total-pages-read"></p>
-        <form class="sort-dropdown-form">
-          <input
-            class="sort-dropdown-list"
-            type="button"
-            list="sort-options"
-            value="Sort"
-          />
-          <datalist id="sort-options">
-            <option>Insertion date</option>
-            <option>Title</option>
-            <option>Author</option>
-            <option>Pages</option>
-            <option>Published</option>
-          </datalist>
-        </form>
+        <label for="sort-options">Order after:</label>
+        <select id="sort-select"></select>
+        <select id="sort-order-select">
+          <option>asc</option>
+          <option>desc</option>
+        </select>
       </header>
       <table>
         <thead class="table-book-categorys">
