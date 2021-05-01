@@ -1,4 +1,4 @@
-import { Book, myLibary, libarySort } from "./libary.js";
+import { Book, myLibary, libarySort, getTotalPagesRead, getTotalBooksRead } from "./libary.js";
 
 const table = document.querySelector("tbody");
 const titleInput = document.querySelector("#book-title");
@@ -8,9 +8,15 @@ const publishedInput = document.querySelector("#book-published");
 const statusInput = document.querySelector("#book-status");
 
 const sortSelect = document.querySelector("#sort-select");
-const orderSelect = document.querySelector("#sort-order-select");
+const directionSelect = document.querySelector("#sort-direct-select");
 
 const cleanTable = () => table.textContent = "";
+
+function renderStats() {
+    document.querySelector("#books-total").textContent = `Total number of Books: ${myLibary.length}`;
+    document.querySelector("#books-total-read").textContent = `Read: ${getTotalBooksRead()}`;
+    document.querySelector("#books-total-pages").textContent = `Total number of pages read: ${getTotalPagesRead()}`;
+}
 
 function renderBooks() {
     cleanTable();
@@ -34,8 +40,8 @@ function addBookToLibary() {
     myLibary.push(new Book(
         titleInput.value,
         authorInput.value,
-        publishedInput.value,
-        pagesInput.value,
+        parseInt(publishedInput.value),
+        parseInt(pagesInput.value),
         statusInput.checked
     ));
 }
@@ -45,12 +51,14 @@ function removeClicked() {
     const bookId = parseInt(tableRow.id);
     myLibary.splice(bookId, 1);
     renderBooks();
+    renderStats();
 }
 
 function statusClicked() {
     const tableRow = this.parentElement.parentElement;
     const bookId = parseInt(tableRow.id);
     myLibary[bookId].haveRead = this.checked;
+    renderStats();
 }
 
 function resetInput() {
@@ -110,11 +118,12 @@ function submitClicked() {
     addBookToLibary();
     resetInput();
     renderBooks();
+    renderStats();
 }
 
 function sortOptionSelected() {
     const orderAfter = sortSelect.options[sortSelect.selectedIndex].text;
-    const direction = orderSelect.options[orderSelect.selectedIndex].text;
+    const direction = directionSelect.options[directionSelect.selectedIndex].text;
     libarySort[orderAfter](direction === "asc" ? true : false);
     renderBooks();
 }
@@ -126,7 +135,7 @@ function initSortSelectionElements() {
         sortSelect.add(option);
     });
     sortSelect.addEventListener("change", sortOptionSelected);
-    orderSelect.addEventListener("change", sortOptionSelected);
+    directionSelect.addEventListener("change", sortOptionSelected);
 }
 
 initSortSelectionElements();
@@ -135,3 +144,4 @@ document.querySelector(".close-btn").addEventListener("click", closeClicked);
 document.querySelector("#book-submit-btn").addEventListener("click", submitClicked);
 resetInput();
 renderBooks();
+renderStats();

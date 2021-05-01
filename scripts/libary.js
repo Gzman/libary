@@ -19,13 +19,18 @@ export const libarySort = {
     "Published": (ascending) => myLibary.sort((a, b) => ascending ? a.published - b.published : b.published - a.published)
 }
 
+export const getTotalBooksRead = () => myLibary.filter((book) => book.haveRead).length;
+export const getTotalPagesRead = () => myLibary.reduce((total, current) => current.haveRead ? total + current.numberOfPages : total, 0);
+
 
 const dumpData1 = new Book("The Lord of the Rings", "J. R. R. Tolkien", 1954, 543, true);
 const dumpData2 = new Book("Lord of the Flies", "William Golding", 1954, 224, true);
 const dumpData3 = new Book("Der Steppenwolf", "H. Hesse", 1974, 277);
-const dumpData4 = new Book("The Green Mile", "S. King", 1999, 544);
-dumpData1.insertionDate.setSeconds(1);
-dumpData2.insertionDate.setSeconds(2);
-dumpData3.insertionDate.setSeconds(3);
-dumpData4.insertionDate.setSeconds(4);
-myLibary = [...myLibary, dumpData1, dumpData2, dumpData3, dumpData4];
+const dumpData4 = new Book("The Green Mile", "S. King", 1999, 544, true);
+const dumpData5 = new Book("Blackout", "M. Elsberg", 2013, 832);
+dumpData1.insertionDate.setMilliseconds(11);
+dumpData2.insertionDate.setMilliseconds(12);
+dumpData3.insertionDate.setMilliseconds(13);
+dumpData4.insertionDate.setMilliseconds(14);
+dumpData5.insertionDate.setMilliseconds(15);
+myLibary = [...myLibary, dumpData1, dumpData2, dumpData3, dumpData4, dumpData5];

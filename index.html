@@ -11,16 +11,21 @@
   <body>
     <h1>Library</h1>
     <div class="libary">
+      <div class="stats">
+        <p id="books-total"></p>
+        <p id="books-total-read"></p>
+        <p id="books-total-pages"></p>
+      </div>
       <header>
         <button class="add-book-btn">+ Book</button>
-        <p>Total number of pages read</p>
-        <p class="total-pages-read"></p>
-        <label for="sort-options">Order after:</label>
-        <select id="sort-select"></select>
-        <select id="sort-order-select">
-          <option>asc</option>
-          <option>desc</option>
-        </select>
+        <form>
+          <label for="sort-select">Order after:</label>
+          <select id="sort-select"></select>
+          <select id="sort-direct-select">
+            <option selected>asc</option>
+            <option>desc</option>
+          </select>
+        </form>
       </header>
       <table>
         <thead class="table-book-categorys">
