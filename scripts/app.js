@@ -1,11 +1,11 @@
 import { Book, myLibary, libarySort } from "./libary.js";
 
 const table = document.querySelector("tbody");
-const titleField = document.querySelector("#book-title");
-const authorField = document.querySelector("#book-author");
-const pagesField = document.querySelector("#book-pages");
-const publishedField = document.querySelector("#book-published");
-const statusField = document.querySelector("#book-status");
+const titleInput = document.querySelector("#book-title");
+const authorInput = document.querySelector("#book-author");
+const pagesInput = document.querySelector("#book-pages");
+const publishedInput = document.querySelector("#book-published");
+const statusInput = document.querySelector("#book-status");
 
 const sortSelect = document.querySelector("#sort-select");
 const orderSelect = document.querySelector("#sort-order-select");
@@ -25,24 +25,18 @@ function renderBooks() {
         <td><input class="checkbox-status" type="checkbox" ${book.haveRead ? "checked" : "unchecked"}/></td>
         <td><button class="remove-btn">delete</button></td>`;
         table.append(tableRow);
-        console.log(book.insertionDate);
     });
     document.querySelectorAll(".checkbox-status").forEach(checkbox => checkbox.addEventListener("change", statusClicked));
     document.querySelectorAll(".remove-btn").forEach(btn => btn.addEventListener("click", removeClicked));
 }
 
 function addBookToLibary() {
-    const title = titleField.value;
-    const author = authorField.value;
-    const pages = pagesField.value.length > 0 ? parseInt(pagesField.value) : "";
-    const published = publishedField.value.length > 0 ? parseInt(publishedField.value) : "";
-    const status = statusField.checked;
     myLibary.push(new Book(
-        title,
-        author,
-        published,
-        pages,
-        status
+        titleInput.value,
+        authorInput.value,
+        publishedInput.value,
+        pagesInput.value,
+        statusInput.checked
     ));
 }
 
@@ -60,15 +54,15 @@ function statusClicked() {
 }
 
 function resetInput() {
-    titleField.value = "";
-    authorField.value = "";
-    pagesField.value = "";
-    publishedField.value = "";
-    titleField.placeholder = "Title";
-    authorField.placeholder = "Author";
-    pagesField.placeholder = "Number of pages";
-    publishedField.placeholder = "YYYY";
-    statusField.checked = false;
+    titleInput.value = "";
+    authorInput.value = "";
+    pagesInput.value = "";
+    publishedInput.value = "";
+    titleInput.placeholder = "Title";
+    authorInput.placeholder = "Author";
+    pagesInput.placeholder = "Number of pages";
+    publishedInput.placeholder = "YYYY";
+    statusInput.checked = false;
 }
 
 function renderErrorMessage(textField, error) {
@@ -76,46 +70,30 @@ function renderErrorMessage(textField, error) {
     textField.placeholder = error;
 }
 
-function isValidTitle() {
-    if (titleField.value.length <= 0) {
-        renderErrorMessage(titleField, "Please enter a title");
-        return false;
-    }
-    return true;
-}
-
-function isValidPageNumber() {
-    const pages = pagesField.value;
-    const pageNumber = parseInt(pages);
-    if (pages.length > 0 && (Number.isNaN(pageNumber) || pageNumber <= 0)) {
-        renderErrorMessage(pagesField, "Enter a number greater than 0");
-        return false;
-    }
-    return true;
-}
-
-function isValidReleaseyear() {
-    if (publishedField.value.length > 0) {
-        if (publishedField.value.length !== 4) {
-            renderErrorMessage(publishedField, "Enter a year in the format: YYYY");
-            return false;
-        }
-        const year = parseInt(parseInt(publishedField.value));
-        if (Number.isNaN(year)) {
-            renderErrorMessage(publishedField, "Only numbers are allowed for release year");
-            return false;
-        }
-        const currentYear = new Date().getFullYear();
-        if (year > currentYear) {
-            renderErrorMessage(publishedField, "Release year can't be set in the future");
-            return false;
-        }
-    }
-    return true;
-}
-
 function isValidInput() {
-    return isValidTitle() && isValidPageNumber() && isValidReleaseyear();
+    let isValid = true
+    if (titleInput.value.length <= 0) {
+        renderErrorMessage(titleInput, "Please enter a title");
+        isValid = false;
+    }
+    if (authorInput.value.length <= 0) {
+        renderErrorMessage(authorInput, "Please enter a name");
+        isValid = false;
+    }
+    if (pagesInput.value.length <= 0 || pagesInput.value <= 0) {
+        renderErrorMessage(pagesInput, "Enter a number greater than 0");
+        isValid = false;
+    }
+    if (publishedInput.value.length !== 4) {
+        renderErrorMessage(publishedInput, "Enter a year in the format: YYYY");
+        return false;
+    }
+    const currentYear = new Date().getFullYear();
+    if (publishedInput.value > currentYear) {
+        renderErrorMessage(publishedInput, "Release year can't be set in the future");
+        isValid = false;
+    }
+    return isValid;
 }
 
 function addBookClicked() {
