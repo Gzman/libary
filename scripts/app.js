@@ -6,7 +6,6 @@ const authorInput = document.querySelector("#book-author");
 const pagesInput = document.querySelector("#book-pages");
 const publishedInput = document.querySelector("#book-published");
 const statusInput = document.querySelector("#book-status");
-
 const sortSelect = document.querySelector("#sort-select");
 const directionSelect = document.querySelector("#sort-direct-select");
 
@@ -62,20 +61,30 @@ function statusClicked() {
 }
 
 function resetInput() {
+    removeErrorMessages();
     titleInput.value = "";
     authorInput.value = "";
     pagesInput.value = "";
     publishedInput.value = "";
-    titleInput.placeholder = "Title";
-    authorInput.placeholder = "Author";
-    pagesInput.placeholder = "Number of pages";
-    publishedInput.placeholder = "YYYY";
     statusInput.checked = false;
 }
 
-function renderErrorMessage(textField, error) {
-    textField.value = "";
-    textField.placeholder = error;
+function renderErrorMessage(textInput, errorMsg) {
+    const errorLabel = document.getElementById(`${textInput.id}-error`);
+    textInput.classList.add("display-error");
+    errorLabel.textContent = errorMsg;
+    errorLabel.hidden = false;
+}
+
+function removeErrorMessage(textInput) {
+    if (textInput) {
+        textInput.classList.remove("display-error");
+        document.getElementById(`${textInput.id}-error`).hidden = true;
+    }
+}
+
+function removeErrorMessages() {
+    document.querySelectorAll(".display-error").forEach(element => removeErrorMessage(element));
 }
 
 function isValidInput() {
@@ -83,14 +92,20 @@ function isValidInput() {
     if (titleInput.value.length <= 0) {
         renderErrorMessage(titleInput, "Please enter a title");
         isValid = false;
+    } else {
+        removeErrorMessage(titleInput);
     }
     if (authorInput.value.length <= 0) {
         renderErrorMessage(authorInput, "Please enter a name");
         isValid = false;
+    } else {
+        removeErrorMessage(authorInput);
     }
     if (pagesInput.value.length <= 0 || pagesInput.value <= 0) {
         renderErrorMessage(pagesInput, "Enter a number greater than 0");
         isValid = false;
+    } else {
+        removeErrorMessage(pagesInput);
     }
     if (publishedInput.value.length !== 4) {
         renderErrorMessage(publishedInput, "Enter a year in the format: YYYY");
@@ -100,6 +115,8 @@ function isValidInput() {
     if (publishedInput.value > currentYear) {
         renderErrorMessage(publishedInput, "Release year can't be set in the future");
         isValid = false;
+    } else {
+        removeErrorMessage(publishedInput);
     }
     return isValid;
 }
@@ -144,6 +161,7 @@ document.querySelector(".add-book-btn").addEventListener("click", addBookClicked
 document.querySelector(".close-btn").addEventListener("click", closeClicked);
 document.querySelector(".modal-window").addEventListener("click", closeClicked);
 document.querySelector("#book-submit-btn").addEventListener("click", submitClicked);
+
 resetInput();
 renderBooks();
 renderStats();

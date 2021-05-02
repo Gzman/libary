@@ -5,12 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
+    <link rel="stylesheet" href="./style/reset.css" />
     <link rel="stylesheet" href="./style/index.css" />
     <script defer type="module" src="scripts/app.js"></script>
   </head>
   <body>
     <div class="libary">
-      <h1>Book Library</h1>
+      <h1>My Library</h1>
       <div class="stats">
         <p id="books-total"></p>
         <p id="books-total-read"></p>
@@ -46,15 +47,21 @@
         <h3>New Book</h3>
         <label for="book-title">Title</label>
         <input id="book-title" type="text" maxlength="50" size="50" />
+        <label id="book-title-error" for="book-title" hidden></label>
         <label for="book-author">Author</label>
         <input id="book-author" type="text" maxlength="50" size="50" />
+        <label id="book-author-error" for="book-author" hidden></label>
         <label for="book-pages">Pages</label>
         <input id="book-pages" type="number" min="1" maxlength="6" size="6" value="1" />
+        <label id="book-pages-error" for="book-pages" hidden></label>
         <label for="book-published">Published</label>
-        <input id="book-published" type="number" maxlength="4" size="6" />
-        <label class="book-status-label" for="book-status">Read</label>
-        <input id="book-status" type="checkbox" />
-        <input id="book-submit-btn" type="submit" value="Add to Libary" />
+        <input id="book-published" type="number" placeholder="YYYY" maxlength="4" size="6" />
+        <label id="book-published-error" for="book-published" hidden></label>
+        <fieldset>
+          <label class="book-status-label" for="book-status">Read</label>
+          <input id="book-status" type="checkbox" />
+        </fieldset>
+        <input id="book-submit-btn" type="submit" value="Submit" />
       </div>
     </div>
   </body>
