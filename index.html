@@ -9,24 +9,14 @@
     <script defer type="module" src="scripts/app.js"></script>
   </head>
   <body>
-    <h1>Library</h1>
     <div class="libary">
+      <h1>Book Library</h1>
       <div class="stats">
         <p id="books-total"></p>
         <p id="books-total-read"></p>
         <p id="books-total-pages"></p>
       </div>
-      <header>
-        <button class="add-book-btn">+ Book</button>
-        <form>
-          <label for="sort-select">Order after:</label>
-          <select id="sort-select"></select>
-          <select id="sort-direct-select">
-            <option selected>asc</option>
-            <option>desc</option>
-          </select>
-        </form>
-      </header>
+      <button class="add-book-btn">New Book</button>
       <table>
         <thead class="table-book-categorys">
           <tr>
@@ -35,16 +25,26 @@
             <th>Pages</th>
             <th>Published</th>
             <th>Read</th>
+            <th>
+              <form class="sort-form">
+                <label for="sort-select" hidden>Order after:</label>
+                <select id="sort-select"></select>
+                <select id="sort-direct-select">
+                  <option selected>asc</option>
+                  <option>desc</option>
+                </select>
+              </form>
+            </th>
           </tr>
         </thead>
         <tbody class="table-books"></tbody>
       </table>
     </div>
     <div class="modal-window">
-      <button class="close-btn">X</button>
-      <div class="new-book-pop-up">
+      <div class="modal-window-content">
+        <button class="close-btn">X</button>
         <h3>New Book</h3>
-        <label for="book-title">Title*</label>
+        <label for="book-title">Title</label>
         <input id="book-title" type="text" maxlength="50" size="50" />
         <label for="book-author">Author</label>
         <input id="book-author" type="text" maxlength="50" size="50" />

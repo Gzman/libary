@@ -1,72 +1,122 @@
-html {
-  font-family: sans-serif;
-  font-size: 17px;
+:root {
+  --primary-color: steelblue;
+  --gradiant-color: #00a2c8;
+  --highlighting-color: #e39e21;
+  --error-color: #c65c61;
+  --positiv-color: #3f8d47;
 }
 
-body {
-  padding: 1rem;
+html {
+  font-family: Arial;
+  font-size: 16px;
+  color: #003762;
+}
+
+h1 {
+  align-self: center;
+  font-size: 3.25rem;
+  color: var(--primary-color);
+  border-bottom: 0.2rem dotted var(--gradiant-color);
+}
+
+p {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+button {
+  height: 2.25rem;
+  width: 4.75rem;
+  background-color: var(--gradiant-color);
+  color: white;
+  border: none;
+}
+
+button:hover {
+  background-color: var(--highlighting-color);
+  cursor: pointer;
+}
+
+select:hover {
+  cursor: pointer;
+}
+
+::selection {
+  background-color: var(--highlighting-color);
+}
+
+.libary {
+  margin: 0 auto;
+  max-width: 65rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 1rem 0rem;
 }
 
-button,
-.sort-dropdown-list {
-  height: 2.75rem;
-  width: 5rem;
-  background-color: gray;
-  color: whitesmoke;
-}
-
-header {
-  padding-block: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1rem;
+.stats {
+  align-self: flex-end;
+  width: max-content;
+  color: var(--primary-color);
+  border: 0.15rem dotted var(--gradiant-color);
 }
 
 table {
-  padding: 1rem;
-}
-
-tr {
-  border: 0.5rem dotted gray;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 thead {
-  background-color: gray;
-  color: whitesmoke;
-  border: none;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+th,
+td {
+  padding: 0.5rem;
+  text-align: left;
+}
+
+td {
+  border-bottom: 0.15rem dotted var(--gradiant-color);
 }
 
 .modal-window {
   display: none;
   position: fixed;
   height: 100%;
+  width: 100%;
   z-index: 1;
   left: 0;
   top: 0;
-  overflow: auto;
-  background-color: gray;
-  color: whitesmoke;
+  background-color: rgb(0, 0, 0, 0.3);
 }
 
-.close-btn {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.new-book-pop-up {
+.modal-window-content {
+  position: relative;
+  margin-right: auto;
   padding: 4rem;
+  width: 30%;
+  height: 100%;
+  background-color: var(--gradiant-color);
+  color: white;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
+.close-btn {
+  height: 3rem;
+  width: 3.25rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: white;
+  color: var(--gradiant-color);
+  border: 0.5rem solid var(--gradiant-color);
+}
+
 h3 {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .book-status-label {
