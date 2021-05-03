@@ -4,6 +4,8 @@
   --highlighting-color: #e39e21;
   --error-color: #7b3000;
   --font-color: #003762;
+  --libary-width: 65rem;
+  --modal-window-content-width: 28rem;
 }
 
 html {
@@ -51,7 +53,8 @@ p {
   color: var(--primary-color);
 }
 
-button, input[type="submit"] {
+button,
+input[type="submit"] {
   height: 2.4rem;
   width: 5.5rem;
   background-color: var(--gradiant-color);
@@ -86,8 +89,9 @@ button:active,
 }
 
 .libary {
+  padding: 1rem;
   margin: 0 auto;
-  max-width: 65rem;
+  max-width: var(--libary-width);
   display: flex;
   flex-direction: column;
   gap: 1rem 0rem;
@@ -124,18 +128,30 @@ td {
   background-color: rgb(0, 0, 0, 0.3);
 }
 
+@keyframes slide-out {
+  0% {
+    top: 0;
+    left: -35rem;
+  }
+  100% {
+    top: 0;
+    left: 0;
+  }
+}
+
 .modal-window-content {
   position: relative;
   margin-right: auto;
   padding: 3rem;
-  width: 30%;
+  max-width: var(--modal-window-content-width);
   height: 100%;
   background-color: var(--gradiant-color);
   color: white;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  box-shadow: 0 0 0.4rem black;
+  box-shadow: 0 0 0.5rem black;
+  animation: slide-out 0.4s ease-out;
 }
 
 .close-btn {
