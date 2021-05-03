@@ -11,13 +11,18 @@
   </head>
   <body>
     <div class="libary">
-      <h1>My Library</h1>
-      <div class="stats">
-        <p id="books-total"></p>
-        <p id="books-total-read"></p>
-        <p id="books-total-pages"></p>
+      <header>
+        <div class="libary-logo"></div>
+        <h1>My Library</h1>
+      </header>
+      <div class="new-book-and-stats">
+        <button class="add-book-btn">New Book</button>
+        <div class="stats">
+          <p id="books-total"></p>
+          <p id="books-total-read"></p>
+          <p id="books-total-pages"></p>
+        </div>
       </div>
-      <button class="add-book-btn">New Book</button>
       <table>
         <thead class="table-book-categorys">
           <tr>
@@ -52,10 +57,22 @@
         <input id="book-author" type="text" maxlength="50" size="50" />
         <label id="book-author-error" for="book-author" hidden></label>
         <label for="book-pages">Pages</label>
-        <input id="book-pages" type="number" min="1" maxlength="6" size="6" value="1" />
+        <input
+          id="book-pages"
+          type="number"
+          min="1"
+          maxlength="6"
+          size="6"
+        />
         <label id="book-pages-error" for="book-pages" hidden></label>
         <label for="book-published">Published</label>
-        <input id="book-published" type="number" placeholder="YYYY" maxlength="4" size="6" />
+        <input
+          id="book-published"
+          type="number"
+          placeholder="YYYY"
+          maxlength="4"
+          size="6"
+        />
         <label id="book-published-error" for="book-published" hidden></label>
         <fieldset>
           <label class="book-status-label" for="book-status">Read</label>

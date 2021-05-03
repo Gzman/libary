@@ -10,11 +10,13 @@ export function Book(title, author, published, numberOfPages, haveRead = false) 
 }
 
 Book.prototype.info = () => `${this.title} by ${this.author}, ${this.numberOfPages}, ${this.haveRead ? "already read" : "not read yet"}.`;
+Book.prototype.setReadStatus = function(status) { this.haveRead = status; } 
+    
 
 export const libarySort = {
     "Insertion date": (ascending) => myLibary.sort((a, b) => ascending ? a.insertionDate - b.insertionDate : b.insertionDate - a.insertionDate),
-    "Title": (ascending) => myLibary.sort((a, b) => ascending ? a.title > b.title : b.title > a.title),
-    "Author": (ascending) => myLibary.sort((a, b) => ascending ? a.author > b.author : b.author > a.author),
+    "Title": (ascending) => myLibary.sort((a, b) => ascending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)),
+    "Author": (ascending) => myLibary.sort((a, b) => ascending ? a.author.localeCompare(b.author) : b.author.localeCompare(a.author)),
     "Pages": (ascending) => myLibary.sort((a, b) => ascending ? a.numberOfPages - b.numberOfPages : b.numberOfPages - a.numberOfPages),
     "Published": (ascending) => myLibary.sort((a, b) => ascending ? a.published - b.published : b.published - a.published)
 }

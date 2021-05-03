@@ -12,7 +12,7 @@ const directionSelect = document.querySelector("#sort-direct-select");
 const cleanTable = () => table.textContent = "";
 
 function renderStats() {
-    document.querySelector("#books-total").textContent = `Total book count: ${myLibary.length}`;
+    document.querySelector("#books-total").textContent = `Books: ${myLibary.length}`;
     document.querySelector("#books-total-read").textContent = `Read: ${getTotalBooksRead()}`;
     document.querySelector("#books-total-pages").textContent = `Total page count: ${getTotalPagesRead()}`;
 }
@@ -56,7 +56,7 @@ function removeClicked() {
 function statusClicked() {
     const tableRow = this.parentElement.parentElement;
     const bookId = parseInt(tableRow.id);
-    myLibary[bookId].haveRead = this.checked;
+    myLibary[bookId].setReadStatus(this.checked);
     renderStats();
 }
 
@@ -125,18 +125,22 @@ function addBookClicked() {
     document.querySelector(".modal-window").style["display"] = "block";
 }
 
-function closeClicked(event) {
-    if (event.target !== this) return;
+function closeNewBookWindow() {
     resetInput();
     document.querySelector(".modal-window").style["display"] = "none";
+}
+
+function closeClicked(event) {
+    if (event.target !== this) return;
+    closeNewBookWindow();
 }
 
 function submitClicked() {
     if (!isValidInput()) return;
     addBookToLibary();
-    resetInput();
     renderBooks();
     renderStats();
+    closeNewBookWindow();
 }
 
 function sortOptionSelected() {
@@ -162,6 +166,5 @@ document.querySelector(".close-btn").addEventListener("click", closeClicked);
 document.querySelector(".modal-window").addEventListener("click", closeClicked);
 document.querySelector("#book-submit-btn").addEventListener("click", submitClicked);
 
-resetInput();
 renderBooks();
 renderStats();

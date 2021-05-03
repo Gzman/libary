@@ -12,16 +12,43 @@ html {
   color: var(--font-color);
 }
 
-h1 {
-  margin: 3rem 0rem 2rem 0rem;
-  align-self: center;
-  font-size: 3.25rem;
-  color: var(--primary-color);
+header {
+  width: max-content;
+  margin: 4rem auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 0rem 1rem;
   border-bottom: 0.2rem dotted var(--gradiant-color);
 }
 
+.libary-logo {
+  width: 4.5rem;
+  height: 4.5rem;
+  /*"Icon made by mavadee from www.flaticon.com" */
+  background-image: url(../images/library_logo.svg);
+  background-size: contain;
+}
+
+h1 {
+  font-size: 3.75rem;
+  color: var(--primary-color);
+}
+
+.new-book-and-stats {
+  display: flex;
+  gap: 0 1rem;
+}
+
 p {
-  padding: 0.5rem;
+  padding: 0.25rem;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 0 0.5rem;
+  width: max-content;
+  color: var(--primary-color);
 }
 
 button, input[type="submit"] {
@@ -66,13 +93,6 @@ button:active,
   gap: 1rem 0rem;
 }
 
-.stats {
-  align-self: center;
-  width: max-content;
-  color: var(--primary-color);
-  border: 0.15rem dotted var(--gradiant-color);
-}
-
 table {
   width: 100%;
   border-collapse: collapse;
@@ -115,6 +135,7 @@ td {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  box-shadow: 0 0 0.4rem black;
 }
 
 .close-btn {
