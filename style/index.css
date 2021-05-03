@@ -16,7 +16,7 @@ html {
 
 header {
   width: max-content;
-  margin: 4rem auto;
+  margin: 3rem auto;
   display: flex;
   align-items: flex-end;
   gap: 0rem 1rem;
@@ -26,7 +26,6 @@ header {
 .libary-logo {
   width: 4.5rem;
   height: 4.5rem;
-  /*"Icon made by mavadee from www.flaticon.com" */
   background-image: url(../images/library_logo.svg);
   background-size: contain;
 }

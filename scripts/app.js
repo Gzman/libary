@@ -1,4 +1,4 @@
-import { Book, myLibary, libarySort, getTotalPagesRead, getTotalBooksRead } from "./libary.js";
+import * as libary from "./libary.js";
 
 const table = document.querySelector("tbody");
 const titleInput = document.querySelector("#book-title");
@@ -12,16 +12,16 @@ const directionSelect = document.querySelector("#sort-direct-select");
 const cleanTable = () => table.textContent = "";
 
 function renderStats() {
-    document.querySelector("#books-total").textContent = `Books: ${myLibary.length}`;
-    document.querySelector("#books-total-read").textContent = `Read: ${getTotalBooksRead()}`;
-    document.querySelector("#books-total-pages").textContent = `Total page count: ${getTotalPagesRead()}`;
+    document.querySelector("#books-total").textContent = `Books: ${libary.myBooks.length}`;
+    document.querySelector("#books-total-read").textContent = `Read: ${libary.getTotalBooksRead()}`;
+    document.querySelector("#books-total-pages").textContent = `Total page count: ${libary.getTotalPagesRead()}`;
 }
 
 function renderBooks() {
     cleanTable();
-    myLibary.forEach((book) => {
+    libary.myBooks.forEach((book) => {
         const tableRow = document.createElement("tr");
-        tableRow.id = myLibary.indexOf(book);
+        tableRow.id = libary.myBooks.indexOf(book);
         tableRow.innerHTML = `
         <td>${book.title}</td>
         <td>${book.author}</td>
@@ -36,19 +36,21 @@ function renderBooks() {
 }
 
 function addBookToLibary() {
-    myLibary.push(new Book(
+    libary.myBooks.push(new libary.Book(
         titleInput.value,
         authorInput.value,
         parseInt(publishedInput.value),
         parseInt(pagesInput.value),
         statusInput.checked
     ));
+    libary.saveBooksToSession();
 }
 
 function removeClicked() {
     const tableRow = this.parentElement.parentElement;
     const bookId = parseInt(tableRow.id);
-    myLibary.splice(bookId, 1);
+    libary.myBooks.splice(bookId, 1);
+    libary.saveBooksToSession();
     renderBooks();
     renderStats();
 }
@@ -56,7 +58,8 @@ function removeClicked() {
 function statusClicked() {
     const tableRow = this.parentElement.parentElement;
     const bookId = parseInt(tableRow.id);
-    myLibary[bookId].setReadStatus(this.checked);
+    libary.myBooks[bookId].haveRead = this.checked;
+    libary.saveBooksToSession();
     renderStats();
 }
 
@@ -146,12 +149,12 @@ function submitClicked() {
 function sortOptionSelected() {
     const orderAfter = sortSelect.options[sortSelect.selectedIndex].text;
     const direction = directionSelect.options[directionSelect.selectedIndex].text;
-    libarySort[orderAfter](direction === "asc" ? true : false);
+    libary.sortBooks[orderAfter](direction === "asc" ? true : false);
     renderBooks();
 }
 
 function initSortSelectionElements() {
-    Object.keys(libarySort).forEach((key) => {
+    Object.keys(libary.sortBooks).forEach((key) => {
         const option = document.createElement("option");
         option.text = key;
         sortSelect.add(option);
@@ -166,5 +169,6 @@ document.querySelector(".close-btn").addEventListener("click", closeClicked);
 document.querySelector(".modal-window").addEventListener("click", closeClicked);
 document.querySelector("#book-submit-btn").addEventListener("click", submitClicked);
 
+libary.loadBooksFromSession();
 renderBooks();
 renderStats();
