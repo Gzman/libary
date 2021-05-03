@@ -16,7 +16,7 @@ html {
 
 header {
   width: max-content;
-  margin: 3rem auto;
+  margin: 1rem auto;
   display: flex;
   align-items: flex-end;
   gap: 0rem 1rem;
@@ -35,7 +35,7 @@ h1 {
   color: var(--primary-color);
 }
 
-.new-book-and-stats {
+.new-book-btn-and-stats {
   display: flex;
   gap: 0 1rem;
 }
@@ -141,7 +141,7 @@ td {
 .modal-window-content {
   position: relative;
   margin-right: auto;
-  padding: 3rem;
+  padding: 3.5rem 3rem;
   max-width: var(--modal-window-content-width);
   height: 100%;
   background-color: var(--gradiant-color);

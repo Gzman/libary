@@ -11,7 +11,7 @@ const directionSelect = document.querySelector("#sort-direct-select");
 
 const cleanTable = () => table.textContent = "";
 
-function renderStats() {
+function renderLibaryStats() {
     document.querySelector("#books-total").textContent = `Books: ${libary.myBooks.length}`;
     document.querySelector("#books-total-read").textContent = `Read: ${libary.getTotalBooksRead()}`;
     document.querySelector("#books-total-pages").textContent = `Total page count: ${libary.getTotalPagesRead()}`;
@@ -19,7 +19,7 @@ function renderStats() {
 
 function renderBooks() {
     cleanTable();
-    libary.myBooks.forEach((book) => {
+    libary.myBooks.forEach(book => {
         const tableRow = document.createElement("tr");
         tableRow.id = libary.myBooks.indexOf(book);
         tableRow.innerHTML = `
@@ -31,7 +31,7 @@ function renderBooks() {
         <td><button class="remove-btn">delete</button></td>`;
         table.append(tableRow);
     });
-    document.querySelectorAll(".checkbox-status").forEach(checkbox => checkbox.addEventListener("change", statusClicked));
+    document.querySelectorAll(".checkbox-status").forEach(checkbox => checkbox.addEventListener("change", readStatusClicked));
     document.querySelectorAll(".remove-btn").forEach(btn => btn.addEventListener("click", removeClicked));
 }
 
@@ -52,15 +52,15 @@ function removeClicked() {
     libary.myBooks.splice(bookId, 1);
     libary.saveBooksToSession();
     renderBooks();
-    renderStats();
+    renderLibaryStats();
 }
 
-function statusClicked() {
+function readStatusClicked() {
     const tableRow = this.parentElement.parentElement;
     const bookId = parseInt(tableRow.id);
     libary.myBooks[bookId].haveRead = this.checked;
     libary.saveBooksToSession();
-    renderStats();
+    renderLibaryStats();
 }
 
 function resetInput() {
@@ -124,7 +124,7 @@ function isValidInput() {
     return isValid;
 }
 
-function addBookClicked() {
+function newBookClicked() {
     document.querySelector(".modal-window").style["display"] = "block";
 }
 
@@ -142,19 +142,19 @@ function submitClicked() {
     if (!isValidInput()) return;
     addBookToLibary();
     renderBooks();
-    renderStats();
+    renderLibaryStats();
     closeNewBookWindow();
 }
 
 function sortOptionSelected() {
-    const orderAfter = sortSelect.options[sortSelect.selectedIndex].text;
+    const sortAfter = sortSelect.options[sortSelect.selectedIndex].text;
     const direction = directionSelect.options[directionSelect.selectedIndex].text;
-    libary.sortBooks[orderAfter](direction === "asc" ? true : false);
+    libary.sortBooks[sortAfter](direction === "asc" ? true : false);
     renderBooks();
 }
 
 function initSortSelectionElements() {
-    Object.keys(libary.sortBooks).forEach((key) => {
+    Object.keys(libary.sortBooks).forEach(key => {
         const option = document.createElement("option");
         option.text = key;
         sortSelect.add(option);
@@ -164,11 +164,11 @@ function initSortSelectionElements() {
 }
 
 initSortSelectionElements();
-document.querySelector(".add-book-btn").addEventListener("click", addBookClicked);
+document.querySelector(".add-book-btn").addEventListener("click", newBookClicked);
 document.querySelector(".close-btn").addEventListener("click", closeClicked);
 document.querySelector(".modal-window").addEventListener("click", closeClicked);
 document.querySelector("#book-submit-btn").addEventListener("click", submitClicked);
 
 libary.loadBooksFromSession();
 renderBooks();
-renderStats();
+renderLibaryStats();

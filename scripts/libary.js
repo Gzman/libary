@@ -8,9 +8,9 @@ export function Book(title, author, published, numberOfPages, haveRead = false) 
     this.haveRead = haveRead;
     this.insertionDate = new Date();
 }
-
 Book.prototype.info = () => `${this.title} by ${this.author}, ${this.numberOfPages}, ${this.haveRead ? "already read" : "not read yet"}.`;
 
+// -- Key - sortfunction mapping --
 export const sortBooks = {
     "Insertion date": (ascending = true) => myBooks.sort((a, b) => ascending ? a.insertionDate - b.insertionDate : b.insertionDate - a.insertionDate),
     "Title": (ascending = true) => myBooks.sort((a, b) => ascending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)),
@@ -22,12 +22,15 @@ export const sortBooks = {
 export const getTotalBooksRead = () => myBooks.filter((book) => book.haveRead).length;
 export const getTotalPagesRead = () => myBooks.reduce((total, current) => current.haveRead ? total + current.numberOfPages : total, 0);
 
+// -- Session storage --
+const STORAGE_ID = "myBooks";
+
 export function saveBooksToSession() {
-    sessionStorage.setItem("myBooks", JSON.stringify(myBooks));
+    sessionStorage.setItem(STORAGE_ID, JSON.stringify(myBooks));
 }
 
 export function loadBooksFromSession() {
-    myBooks = JSON.parse(sessionStorage.getItem("myBooks"));
+    myBooks = JSON.parse(sessionStorage.getItem(STORAGE_ID));
     if (myBooks !== null) {
         myBooks.forEach((book) => {
             const stringyfiedDate = book.insertionDate;
@@ -40,6 +43,7 @@ export function loadBooksFromSession() {
     }
 }
 
+// -- Setting up default data --
 function setDefaultData() {
     const dumpData1 = new Book("The Lord of the Rings", "J. R. R. Tolkien", 1954, 543, true);
     const dumpData2 = new Book("Lord of the Flies", "William Golding", 1954, 224, true);
