@@ -3,4 +3,4 @@ The odin project - fith assignment; building a site where books can be displayed
 
 https://gzman.github.io/libary/
 
-"Icon made by mavadee from www.flaticon.com"
+<sub>Icon made by mavadee from www.flaticon.com</sub>
