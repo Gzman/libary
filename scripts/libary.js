@@ -6,9 +6,10 @@ export function Book(title, author, published, numberOfPages, haveRead = false) 
     this.published = published;
     this.numberOfPages = numberOfPages;
     this.haveRead = haveRead;
-    this.insertionDate = new Date();
+    this.insertionDate = Date.now();
 }
-Book.prototype.info = () => `${this.title} by ${this.author}, ${this.numberOfPages}, ${this.haveRead ? "already read" : "not read yet"}.`;
+Book.prototype.info = function () { return `${this.title} by ${this.author}, ${this.numberOfPages}, ${this.haveRead ? "already read" : "not read yet"}.`; }
+Book.prototype.setReadStatus = function (read) { this.haveRead = read; }
 
 // -- Key - sortfunction mapping --
 export const sortBooks = {
@@ -31,16 +32,10 @@ export function saveBooksToSession() {
 
 export function loadBooksFromSession() {
     myBooks = JSON.parse(sessionStorage.getItem(STORAGE_ID));
-    if (myBooks !== null) {
-        myBooks.forEach((book) => {
-            const stringyfiedDate = book.insertionDate;
-            book.insertionDate = new Date(stringyfiedDate);
-        });
+    if (myBooks !== null)
         sortBooks["Insertion date"]();
-    }
-    else {
+    else
         setDefaultData();
-    }
 }
 
 // -- Setting up default data --
@@ -50,10 +45,10 @@ function setDefaultData() {
     const dumpData3 = new Book("Der Steppenwolf", "H. Hesse", 1974, 277);
     const dumpData4 = new Book("The Green Mile", "S. King", 1999, 544, true);
     const dumpData5 = new Book("Blackout", "M. Elsberg", 2013, 832);
-    dumpData1.insertionDate.setMilliseconds(11);
-    dumpData2.insertionDate.setMilliseconds(12);
-    dumpData3.insertionDate.setMilliseconds(13);
-    dumpData4.insertionDate.setMilliseconds(14);
-    dumpData5.insertionDate.setMilliseconds(15);
+    dumpData1.insertionDate += 1;
+    dumpData2.insertionDate += 2;
+    dumpData3.insertionDate += 3;
+    dumpData4.insertionDate += 4;
+    dumpData5.insertionDate += 5;
     myBooks = [dumpData1, dumpData2, dumpData3, dumpData4, dumpData5];
 }
