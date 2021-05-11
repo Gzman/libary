@@ -1,174 +1,194 @@
-import * as libary from "./libary.js";
+import { Book, Libary } from "./libary.js";
 
-const table = document.querySelector("tbody");
-const titleInput = document.querySelector("#book-title");
-const authorInput = document.querySelector("#book-author");
-const pagesInput = document.querySelector("#book-pages");
-const publishedInput = document.querySelector("#book-published");
-const statusInput = document.querySelector("#book-status");
-const sortSelect = document.querySelector("#sort-select");
-const directionSelect = document.querySelector("#sort-direct-select");
 
-const cleanTable = () => table.textContent = "";
+const DisplayCtrl = ((Libary) => {
+    const table = document.querySelector("tbody");
 
-function renderLibaryStats() {
-    document.querySelector("#books-total").textContent = `Books: ${libary.myBooks.length}`;
-    document.querySelector("#books-total-read").textContent = `Read: ${libary.getTotalBooksRead()}`;
-    document.querySelector("#books-total-pages").textContent = `Total page count: ${libary.getTotalPagesRead()}`;
-}
+    const cleanTable = () => table.textContent = "";
 
-function renderBooks() {
-    cleanTable();
-    libary.myBooks.forEach(book => {
-        const tableRow = document.createElement("tr");
-        tableRow.id = libary.myBooks.indexOf(book);
-        tableRow.innerHTML = `
-        <td>${book.title}</td>
-        <td>${book.author}</td>
-        <td>${book.numberOfPages}</td>
-        <td>${book.published}</td>
-        <td><input class="checkbox-status" type="checkbox" ${book.haveRead ? "checked" : "unchecked"}/></td>
-        <td><button class="remove-btn">delete</button></td>`;
-        table.append(tableRow);
-    });
-    document.querySelectorAll(".checkbox-status").forEach(checkbox => checkbox.addEventListener("change", readStatusClicked));
-    document.querySelectorAll(".remove-btn").forEach(btn => btn.addEventListener("click", removeClicked));
-}
-
-function addBookToLibary() {
-    libary.myBooks.push(new libary.Book(
-        titleInput.value,
-        authorInput.value,
-        parseInt(publishedInput.value),
-        parseInt(pagesInput.value),
-        statusInput.checked
-    ));
-    libary.saveBooksToSession();
-}
-
-function removeClicked() {
-    const tableRow = this.parentElement.parentElement;
-    const bookId = parseInt(tableRow.id);
-    libary.myBooks.splice(bookId, 1);
-    libary.saveBooksToSession();
-    renderBooks();
-    renderLibaryStats();
-}
-
-function readStatusClicked() {
-    const tableRow = this.parentElement.parentElement;
-    const bookId = parseInt(tableRow.id);
-    libary.myBooks[bookId].haveRead = this.checked;
-    libary.saveBooksToSession();
-    renderLibaryStats();
-}
-
-function resetInput() {
-    removeErrorMessages();
-    titleInput.value = "";
-    authorInput.value = "";
-    pagesInput.value = "";
-    publishedInput.value = "";
-    statusInput.checked = false;
-}
-
-function renderErrorMessage(textInput, errorMsg) {
-    const errorLabel = document.getElementById(`${textInput.id}-error`);
-    textInput.classList.add("display-error");
-    errorLabel.textContent = errorMsg;
-    errorLabel.hidden = false;
-}
-
-function removeErrorMessage(textInput) {
-    if (textInput) {
-        textInput.classList.remove("display-error");
-        document.getElementById(`${textInput.id}-error`).hidden = true;
+    const renderLibaryStats = () => {
+        document.querySelector("#books-total").textContent = `Books: ${Libary.myBooks().length}`;
+        document.querySelector("#books-total-read").textContent = `Read: ${Libary.getTotalBooksRead()}`;
+        document.querySelector("#books-total-pages").textContent = `Total page count: ${Libary.getTotalPagesRead()}`;
     }
-}
 
-function removeErrorMessages() {
-    document.querySelectorAll(".display-error").forEach(element => removeErrorMessage(element));
-}
-
-function isValidInput() {
-    let isValid = true
-    if (titleInput.value.length <= 0) {
-        renderErrorMessage(titleInput, "Please enter a title");
-        isValid = false;
-    } else {
-        removeErrorMessage(titleInput);
+    const renderBooks = () => {
+        cleanTable();
+        Libary.myBooks().forEach((book, bookId) => {
+            const tableRow = document.createElement("tr");
+            tableRow.id = bookId;
+            tableRow.innerHTML = `
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.numberOfPages}</td>
+            <td>${book.published}</td>
+            <td><input class="checkbox-status" type="checkbox" ${book.haveRead ? "checked" : "unchecked"}/></td>
+            <td><button class="remove-btn">delete</button></td>`;
+            table.append(tableRow);
+        });
+        document.querySelectorAll(".checkbox-status").forEach(checkbox => checkbox.addEventListener("change", readStatusClicked));
+        document.querySelectorAll(".remove-btn").forEach(btn => btn.addEventListener("click", removeClicked));
     }
-    if (authorInput.value.length <= 0) {
-        renderErrorMessage(authorInput, "Please enter a name");
-        isValid = false;
-    } else {
-        removeErrorMessage(authorInput);
+
+    function removeClicked() {
+        const tableRow = this.parentElement.parentElement;
+        const bookId = parseInt(tableRow.id);
+        Libary.removeBook(bookId);
+        Libary.saveBooksToSession();
+        renderBooks();
+        renderLibaryStats();
     }
-    if (pagesInput.value.length <= 0 || pagesInput.value <= 0) {
-        renderErrorMessage(pagesInput, "Enter a number greater than 0");
-        isValid = false;
-    } else {
-        removeErrorMessage(pagesInput);
+
+    function readStatusClicked() {
+        const tableRow = this.parentElement.parentElement;
+        const bookId = parseInt(tableRow.id);
+        Libary.getBook(bookId).haveRead = this.checked;
+        Libary.saveBooksToSession();
+        renderLibaryStats();
     }
-    if (publishedInput.value.length !== 4) {
-        renderErrorMessage(publishedInput, "Enter a year in the format: YYYY");
-        return false;
+
+    const renderErrorMessage = (textInput, errorMsg) => {
+        const errorLabel = document.getElementById(`${textInput.id}-error`);
+        textInput.classList.add("display-error");
+        errorLabel.textContent = errorMsg;
+        errorLabel.hidden = false;
     }
-    const currentYear = new Date().getFullYear();
-    if (publishedInput.value > currentYear) {
-        renderErrorMessage(publishedInput, "Release year can't be set in the future");
-        isValid = false;
-    } else {
-        removeErrorMessage(publishedInput);
+
+    const removeErrorMessage = (textInput) => {
+        if (textInput) {
+            textInput.classList.remove("display-error");
+            document.getElementById(`${textInput.id}-error`).hidden = true;
+        }
     }
-    return isValid;
-}
 
-function newBookClicked() {
-    document.querySelector(".modal-window").style["display"] = "block";
-}
+    const removeErrorMessages = () => document.querySelectorAll(".display-error").forEach(element => removeErrorMessage(element));
 
-function closeNewBookWindow() {
-    resetInput();
-    document.querySelector(".modal-window").style["display"] = "none";
-}
+    const renderSite = () => {
+        Libary.loadBooksFromSession();
+        DisplayCtrl.renderBooks();
+        DisplayCtrl.renderLibaryStats();
+    }
 
-function closeClicked(event) {
-    if (event.target !== this) return;
-    closeNewBookWindow();
-}
+    return {
+        renderBooks,
+        renderLibaryStats,
+        renderErrorMessage,
+        removeErrorMessage,
+        removeErrorMessages,
+        renderSite
+    }
+})(Libary);
 
-function submitClicked() {
-    if (!isValidInput()) return;
-    addBookToLibary();
-    renderBooks();
-    renderLibaryStats();
-    closeNewBookWindow();
-}
 
-function sortOptionSelected() {
-    const sortAfter = sortSelect.options[sortSelect.selectedIndex].text;
-    const direction = directionSelect.options[directionSelect.selectedIndex].text;
-    libary.sortBooks[sortAfter](direction === "asc" ? true : false);
-    renderBooks();
-}
+(function setUpSortSelection(Libary) {
+    const sortSelect = document.querySelector("#sort-select");
+    const directionSelect = document.querySelector("#sort-direct-select");
 
-function initSortSelectionElements() {
-    Object.keys(libary.sortBooks).forEach(key => {
+    Libary.getSortKeys().forEach(key => {
         const option = document.createElement("option");
         option.text = key;
         sortSelect.add(option);
     });
+
+    const sortOptionSelected = () => {
+        const sortAfter = sortSelect.options[sortSelect.selectedIndex].text;
+        const direction = directionSelect.options[directionSelect.selectedIndex].text;
+        Libary.sortBooks[sortAfter](direction === "asc" ? true : false);
+        DisplayCtrl.renderBooks();
+    }
+
     sortSelect.addEventListener("change", sortOptionSelected);
     directionSelect.addEventListener("change", sortOptionSelected);
-}
+})(Libary);
 
-initSortSelectionElements();
-document.querySelector(".add-book-btn").addEventListener("click", newBookClicked);
-document.querySelector(".close-btn").addEventListener("click", closeClicked);
-document.querySelector(".modal-window").addEventListener("click", closeClicked);
-document.querySelector("#book-submit-btn").addEventListener("click", submitClicked);
 
-libary.loadBooksFromSession();
-renderBooks();
-renderLibaryStats();
+(function setUpNewBookModal(DisplayCtrl, Libary) {
+    const modal = document.querySelector(".modal-window");
+    const titleInput = modal.querySelector("#book-title");
+    const authorInput = modal.querySelector("#book-author");
+    const pagesInput = modal.querySelector("#book-pages");
+    const publishedInput = modal.querySelector("#book-published");
+    const statusInput = modal.querySelector("#book-status");
+
+    const resetInput = () => {
+        DisplayCtrl.removeErrorMessages();
+        titleInput.value = "";
+        authorInput.value = "";
+        pagesInput.value = "";
+        publishedInput.value = "";
+        statusInput.checked = false;
+    }
+
+    const addBookToLibary = () => {
+        Libary.addBook(new Book(
+            titleInput.value,
+            authorInput.value,
+            parseInt(publishedInput.value),
+            parseInt(pagesInput.value),
+            statusInput.checked
+        ));
+        Libary.saveBooksToSession();
+    }
+
+    const newBookClicked = () => modal.style["display"] = "block";
+
+    const closeNewBookWindow = () => {
+        resetInput();
+        modal.style["display"] = "none";
+    }
+
+    const closeClicked = (event) => {
+        if (event.target !== event.currentTarget) return;
+        closeNewBookWindow();
+    }
+
+    const isValidInput = () => {
+        let isValid = true
+        if (titleInput.value.length <= 0) {
+            DisplayCtrl.renderErrorMessage(titleInput, "Please enter a title");
+            isValid = false;
+        } else {
+            DisplayCtrl.removeErrorMessage(titleInput);
+        }
+        if (authorInput.value.length <= 0) {
+            DisplayCtrl.renderErrorMessage(authorInput, "Please enter a name");
+            isValid = false;
+        } else {
+            DisplayCtrl.removeErrorMessage(authorInput);
+        }
+        if (pagesInput.value.length <= 0 || pagesInput.value <= 0) {
+            DisplayCtrl.renderErrorMessage(pagesInput, "Enter a number greater than 0");
+            isValid = false;
+        } else {
+            DisplayCtrl.removeErrorMessage(pagesInput);
+        }
+        if (publishedInput.value.length !== 4) {
+            DisplayCtrl.renderErrorMessage(publishedInput, "Enter a year in the format: YYYY");
+            return false;
+        }
+        const currentYear = new Date().getFullYear();
+        if (publishedInput.value > currentYear) {
+            DisplayCtrl.renderErrorMessage(publishedInput, "Release year can't be set in the future");
+            isValid = false;
+        } else {
+            DisplayCtrl.removeErrorMessage(publishedInput);
+        }
+        return isValid;
+    }
+
+    const submitClicked = () => {
+        if (!isValidInput()) return;
+        addBookToLibary();
+        DisplayCtrl.renderBooks();
+        DisplayCtrl.renderLibaryStats();
+        closeNewBookWindow();
+    }
+
+    document.querySelector(".add-book-btn").addEventListener("click", newBookClicked);
+    document.querySelector(".close-btn").addEventListener("click", closeClicked);
+    document.querySelector(".modal-window").addEventListener("click", closeClicked);
+    document.querySelector("#book-submit-btn").addEventListener("click", submitClicked);
+})(DisplayCtrl, Libary);
+
+
+DisplayCtrl.renderSite();
