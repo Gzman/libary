@@ -96,6 +96,10 @@ button:active,
   background-color: var(--highlighting-color);
 }
 
+.delete-all-btn {
+  justify-self: flex-end;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -151,7 +155,7 @@ td {
   flex-direction: column;
   gap: 0.25rem;
   box-shadow: 0 0 0.5rem black;
-  animation: slide-out 0.3s ease-out;
+  animation: slide-out 0.26s ease-out;
 }
 
 .close-btn {
@@ -211,24 +215,51 @@ h3 {
   }
 }
 
-@media (max-width: 460px) {
-  html {
-    font-size: 13px;
+@media (max-width: 480px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
   }
-  .libary {
-    padding: 0.5rem;
-    gap: 0.75rem 0rem;
-  }
-  .header {
-    margin: 0 auto;
-  }
-  .modal-window-content {
-    padding: 1rem;
-  }
-}
 
-@media (max-width: 420px) {
-  html {
-    font-size: 12px;
+  thead tr {
+    display: none;
+  }
+
+  tr {
+    border: 0.2rem solid var(--primary-color);
+    border-bottom: none;
+  }
+
+  td {
+    border: none;
+    border-bottom: 0.1rem dotted var(--gradiant-color);
+    position: relative;
+    padding-left: 30%;
+  }
+
+  td:before {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+
+  td:nth-of-type(1):before {
+    content: "Title";
+  }
+  td:nth-of-type(2):before {
+    content: "Author";
+  }
+  td:nth-of-type(3):before {
+    content: "Pages";
+  }
+  td:nth-of-type(4):before {
+    content: "Published";
+  }
+  td:nth-of-type(5):before {
+    content: "Read";
   }
 }
